@@ -1,0 +1,109 @@
+{
+  "city": "Troy",
+  "landmarks": [
+    {
+      "id": 1,
+      "name": "Poestenkill Falls",
+      "typetag": "Nature",
+      "experiencetag": ["Free", "Outdoors", "Adventure"],
+      "description": "Waterfall and gorge located within the city of Troy.",
+      "address": "Linden Ave, Troy, NY",
+      "latitude": 42.7480,
+      "longitude": -73.6546,
+      "website": ""
+    },
+    {
+      "id": 2,
+      "name": "Uncle Sam Monument",
+      "typetag": "Historic",
+      "experiencetag": ["Free", "Outdoors"],
+      "description": "Monument honoring Samuel Wilson, the inspiration for Uncle Sam.",
+      "address": "Riverfront Park, Troy, NY",
+      "latitude": 42.7289,
+      "longitude": -73.6912,
+      "website": ""
+    },
+    {
+      "id": 3,
+      "name": "Soldiers and Sailors Monument",
+      "typetag": "Historic",
+      "experiencetag": ["Free", "Outdoors"],
+      "description": "Civil War monument located in downtown Troy.",
+      "address": "Monument Square, Troy, NY",
+      "latitude": 42.7314,
+      "longitude": -73.6916,
+      "website": ""
+    },
+    {
+      "id": 4,
+      "name": "Burden Iron Works Museum",
+      "typetag": "Museum",
+      "experiencetag": ["Free", "Outdoors", "Adventure"],
+      "description": "Museum preserving Troy’s industrial and iron-working history.",
+      "address": "1 East Industrial Pkwy, Troy, NY",
+      "latitude": 42.7169,
+      "longitude": -73.6880,
+      "website": "https://burdenironworks.org"
+    },
+    {
+      "id": 5,
+      "name": "Troy Waterfront Farmers Market",
+      "type": "Market",
+      "description": "Weekly market featuring local food and artisan vendors.",
+      "address": "River St, Troy, NY",
+      "latitude": 42.7284,
+      "longitude": -73.6918,
+      "website": "https://www.troymarket.org"
+    },
+    {
+      "id": 6,
+      "name": "Troy Waterfront",
+      "type": "Scenic",
+      "description": "Hudson River waterfront with walking paths and views.",
+      "address": "River St, Troy, NY",
+      "latitude": 42.7292,
+      "longitude": -73.6915,
+      "website": ""
+    },
+    {
+      "id": 7,
+      "name": "St. John's Episcopal Church Tiffany Windows",
+      "type": "Historic",
+      "description": "Church featuring renowned Tiffany stained glass windows.",
+      "address": "146 1st St, Troy, NY",
+      "latitude": 42.7306,
+      "longitude": -73.6902,
+      "website": "https://stjohnstroy.org"
+    },
+    {
+      "id": 8,
+      "name": "The Rocks",
+      "type": "Nature",
+      "description": "Rocky natural area popular for exploration and views.",
+      "address": "Troy, NY",
+      "latitude": 42.7350,
+      "longitude": -73.6700,
+      "website": ""
+    },
+    {
+      "id": 9,
+      "name": "Prospect Park",
+      "type": "Park",
+      "description": "Scenic overlook park with trails and city views.",
+      "address": "Broadway, Troy, NY",
+      "latitude": 42.7234,
+      "longitude": -73.6813,
+      "website": ""
+    },
+    {
+      "id": 10,
+      "name": "Field of Horrors",
+      "type": "Attraction",
+      "description": "Seasonal haunted attraction popular during Halloween.",
+      "address": "Troy, NY",
+      "latitude": 42.7200,
+      "longitude": -73.7000,
+      "website": ""
+    }
+  ]
+}

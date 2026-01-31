@@ -1,0 +1,105 @@
+{
+  "city": "Albany",
+  "landmarks": [
+    {
+      "id": 1,
+      "name": "New York State Museum",
+      "type": "Museum",
+      "description": "Museum showcasing New York’s natural and cultural history.",
+      "address": "222 Madison Ave, Albany, NY",
+      "latitude": 42.6528,
+      "longitude": -73.7570,
+      "website": "http://www.nysm.nysed.gov"
+    },
+    {
+      "id": 2,
+      "name": "The Egg",
+      "type": "Entertainment",
+      "description": "Iconic performing arts venue at Empire State Plaza.",
+      "address": "Empire State Plaza, Albany, NY",
+      "latitude": 42.6519,
+      "longitude": -73.7586,
+      "website": "https://theegg.org"
+    },
+    {
+      "id": 3,
+      "name": "North Pearl Street",
+      "type": "District",
+      "description": "Downtown street known for dining and nightlife.",
+      "address": "N Pearl St, Albany, NY",
+      "latitude": 42.6523,
+      "longitude": -73.7549,
+      "website": ""
+    },
+    {
+      "id": 4,
+      "name": "Downtown Albany",
+      "type": "District",
+      "description": "Historic and commercial center of the city.",
+      "address": "Downtown, Albany, NY",
+      "latitude": 42.6526,
+      "longitude": -73.7562,
+      "website": ""
+    },
+    {
+      "id": 5,
+      "name": "Albany City Hall",
+      "type": "Historic",
+      "description": "Romanesque Revival city hall built in the 1880s.",
+      "address": "24 Eagle St, Albany, NY",
+      "latitude": 42.6512,
+      "longitude": -73.7557,
+      "website": ""
+    },
+    {
+      "id": 6,
+      "name": "Washington Park",
+      "type": "Park",
+      "description": "Large urban park famous for the Tulip Festival.",
+      "address": "Washington Park Rd, Albany, NY",
+      "latitude": 42.6556,
+      "longitude": -73.7710,
+      "website": ""
+    },
+    {
+      "id": 7,
+      "name": "Palace Theatre",
+      "type": "Entertainment",
+      "description": "Historic theater hosting concerts and performances.",
+      "address": "19 Clinton Ave, Albany, NY",
+      "latitude": 42.6571,
+      "longitude": -73.7536,
+      "website": "https://palacealbany.org"
+    },
+    {
+      "id": 8,
+      "name": "Crossgates Mall",
+      "type": "Shopping",
+      "description": "Large regional shopping and entertainment mall.",
+      "address": "1 Crossgates Mall Rd, Albany, NY",
+      "latitude": 42.6894,
+      "longitude": -73.8519,
+      "website": "https://www.shopcrossgates.com"
+    },
+    {
+      "id": 9,
+      "name": "Underground Railroad Education Center",
+      "type": "Historic",
+      "description": "Center highlighting Albany’s role in the Underground Railroad.",
+      "address": "198 Livingston Ave, Albany, NY",
+      "latitude": 42.6629,
+      "longitude": -73.7446,
+      "website": "https://undergroundrailroadhistory.org"
+    },
+    {
+      "id": 10,
+      "name": "The Crossings of Colonie",
+      "type": "Park",
+      "description": "Large park with trails, fields, and community events.",
+      "address": "580 Albany Shaker Rd, Loudonville, NY",
+      "latitude": 42.7350,
+      "longitude": -73.7693,
+      "website": ""
+    }
+  ]
+}

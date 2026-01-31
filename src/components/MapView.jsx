@@ -8,6 +8,11 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
+// ✅ import your JSON files
+import AlbanyData from "../data/Albany.json";
+import TroyData from "../data/Troy.json";
+import SchenectadyData from "../data/Schenectady.json";
+
 // Fix Leaflet marker icons for Vite
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -16,62 +21,63 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// --- Temporary landmark data (replace later with JSON file) ---
-const LANDMARKS = [
-  {
-    id: 1,
-    name: "RPI Campus",
-    description: "Walkable campus views and architecture.",
-    lat: 42.7294,
-    lng: -73.6792,
-    tags: ["Free", "History", "Day Trip"],
-  },
-  {
-    id: 2,
-    name: "Prospect Park (Troy)",
-    description: "Scenic overlooks and trails.",
-    lat: 42.7280,
-    lng: -73.6869,
-    tags: ["Nature", "Adventure", "Free"],
-  },
-  {
-    id: 3,
-    name: "Empire State Plaza",
-    description: "Iconic architecture + events (seasonal).",
-    lat: 42.6513,
-    lng: -73.7570,
-    tags: ["Arts", "Event", "History"],
-  },
-];
-
 // Helper: AND filtering (must include ALL selected tags)
 function matchesFilters(landmark, activeTags) {
   if (activeTags.length === 0) return true;
   return activeTags.every((tag) => landmark.tags.includes(tag));
 }
 
+// ✅ Adapter: convert teammate format -> your app format
+function normalizeCityFile(cityFile) {
+  // cityFile looks like: { city: "Albany", landmarks: [...] }
+  return cityFile.landmarks.map((lm) => ({
+    // Make IDs unique across cities (since each file restarts at 1)
+    id: `${cityFile.city.toLowerCase()}-${lm.id}`,
+
+    name: lm.name,
+    description: lm.description,
+    address: lm.address,
+    lat: lm.latitude,
+    lng: lm.longitude,
+    website: lm.website,
+
+    // Tags: include the landmark type + the city name
+    // (Later you can add more tags per landmark if you want)
+    tags: [lm.type, cityFile.city],
+  }));
+}
+
 export default function MapView() {
   const [selected, setSelected] = useState(null);
   const [activeTags, setActiveTags] = useState([]);
 
-  // Build list of all tags from data (for chips)
-  const allTags = useMemo(() => {
-    const set = new Set();
-    LANDMARKS.forEach((l) => l.tags.forEach((t) => set.add(t)));
-    return Array.from(set).sort();
+  // ✅ Combine all cities into one list
+  const landmarks = useMemo(() => {
+    return [
+      ...normalizeCityFile(AlbanyData),
+      ...normalizeCityFile(TroyData),
+      ...normalizeCityFile(SchenectadyData),
+    ];
   }, []);
 
-  // Filter landmarks for markers
+  // ✅ Build the chips from actual data
+  const allTags = useMemo(() => {
+    const set = new Set();
+    landmarks.forEach((l) => l.tags.forEach((t) => set.add(t)));
+    return Array.from(set).sort();
+  }, [landmarks]);
+
+  // ✅ Filter markers based on selected chips
   const filteredLandmarks = useMemo(() => {
-    return LANDMARKS.filter((l) => matchesFilters(l, activeTags));
-  }, [activeTags]);
+    return landmarks.filter((l) => matchesFilters(l, activeTags));
+  }, [landmarks, activeTags]);
 
   function toggleTag(tag) {
     setActiveTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
 
-    // Optional: if current selected landmark is filtered out, close sheet
+    // Close sheet if selection is no longer visible under the new filter set
     setSelected((prevSelected) => {
       if (!prevSelected) return null;
       const nextActive = activeTags.includes(tag)
@@ -140,6 +146,16 @@ export default function MapView() {
 
           <h2 className="sheet-title">{selected.name}</h2>
           <p className="sheet-desc">{selected.description}</p>
+
+          {selected.address && <p className="sheet-desc"><b>Address:</b> {selected.address}</p>}
+
+          {selected.website && (
+            <p className="sheet-desc">
+              <a href={selected.website} target="_blank" rel="noreferrer">
+                Official site
+              </a>
+            </p>
+          )}
 
           <div className="tag-row">
             {selected.tags.map((t) => (

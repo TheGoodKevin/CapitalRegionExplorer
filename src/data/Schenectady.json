@@ -5,21 +5,21 @@
       "id": 1,
       "name": "Proctors Theatre",
       "typetag": "Entertainment",
-      "experiencetag": ["Night Life", "Day Trip", "Indoors"],
+      "experiencetag": ["Day Trip", "Night Life", "Indoors"],
       "description": "Historic 1926 theater hosting Broadway shows and concerts.",
       "address": "432 State St, Schenectady, NY",
       "latitude": 42.8142,
-      "longitude": -73.94,
+      "longitude": -73.9400,
       "website": "https://www.proctors.org"
     },
     {
       "id": 2,
       "name": "miSci Museum",
       "typetag": "Museum",
-      "experiencetag": ["Family", "Educational", "Indoors", "Day Trip"],
+      "experiencetag": ["Day Trip", "Family", "Educational", "Indoors"],
       "description": "Interactive science museum highlighting GE innovation.",
       "address": "15 Museum Dr, Schenectady, NY",
-      "latitude": 42.818,
+      "latitude": 42.8180,
       "longitude": -73.9285,
       "website": "https://mi-science.org"
     },
@@ -27,18 +27,18 @@
       "id": 3,
       "name": "Empire State Aerosciences Museum",
       "typetag": "Museum",
-      "experiencetag": ["Family", "Educational", "Indoors", "Day Trip"],
+      "experiencetag": ["Day Trip", "Family", "Educational", "Indoors"],
       "description": "Aviation museum located at the county airport.",
       "address": "250 Rudy Chase Blvd, Schenectady, NY",
       "latitude": 42.8587,
-      "longitude": -73.927,
+      "longitude": -73.9270,
       "website": "https://esam.org"
     },
     {
       "id": 4,
       "name": "Schenectady Civic Playhouse",
       "typetag": "Entertainment",
-      "experiencetag": ["Night Life", "Day Trip", "Indoors"],
+      "experiencetag": ["Day Trip", "Night Life", "Indoors"],
       "description": "Community theater producing plays and musicals.",
       "address": "12 S Church St, Schenectady, NY",
       "latitude": 42.8149,
@@ -49,7 +49,7 @@
       "id": 5,
       "name": "Via Aquarium",
       "typetag": "Attraction",
-      "experiencetag": ["Family", "Indoors", "Day Trip"],
+      "experiencetag": ["Day Trip", "Family", "Indoors"],
       "description": "Indoor aquarium located inside ViaPort Rotterdam.",
       "address": "93 W Campbell Rd, Schenectady, NY",
       "latitude": 42.7778,
@@ -74,8 +74,8 @@
       "experiencetag": ["Free", "Outdoors", "Adventure", "Day Trip"],
       "description": "Nature preserve with waterfalls and deep ravines.",
       "address": "Plotter Kill Rd, Schenectady, NY",
-      "latitude": 42.807,
-      "longitude": -74.02,
+      "latitude": 42.8070,
+      "longitude": -74.0200,
       "website": ""
     },
     {
@@ -85,8 +85,8 @@
       "experiencetag": ["Free", "Outdoors", "Adventure", "Day Trip"],
       "description": "Preserve known for hiking trails and waterfalls.",
       "address": "Rosa Rd, Schenectady, NY",
-      "latitude": 42.784,
-      "longitude": -73.991,
+      "latitude": 42.7840,
+      "longitude": -73.9910,
       "website": ""
     },
     {
@@ -97,7 +97,7 @@
       "description": "Multi-use trail running through the city along waterways.",
       "address": "Schenectady, NY",
       "latitude": 42.8185,
-      "longitude": -73.95,
+      "longitude": -73.9500,
       "website": ""
     },
     {
@@ -107,8 +107,8 @@
       "experiencetag": ["Free", "Outdoors", "Family", "Day Trip"],
       "description": "Riverfront park with walking paths and scenic views.",
       "address": "Schenectady, NY",
-      "latitude": 42.826,
-      "longitude": -73.949,
+      "latitude": 42.8260,
+      "longitude": -73.9490,
       "website": ""
     }
   ]

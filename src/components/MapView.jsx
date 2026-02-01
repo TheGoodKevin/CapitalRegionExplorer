@@ -1,5 +1,5 @@
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { useMemo, useState } from "react";
+import { MapContainer, TileLayer, Marker, Circle, useMap } from "react-leaflet";
+import { useMemo, useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import "./MapView.css";
 
@@ -49,8 +49,52 @@ function matchesExperienceTags(landmark, selectedExperienceTags) {
   return selectedExperienceTags.every((tag) => landmark.experiencetag.includes(tag));
 }
 
+function LocateButton({ userLocation, onRequestLocation }) {
+  const map = useMap();
+
+  return (
+    <button
+      className="floating-locate-btn"
+      type="button"
+      onClick={() => {
+        if (!userLocation) {
+          onRequestLocation?.();
+          return;
+        }
+        map.setView([userLocation.lat, userLocation.lng], Math.max(map.getZoom(), 14), {
+          animate: true,
+        });
+      }}
+      title="Center on my location"
+    >
+      ◎
+    </button>
+  );
+}
+
 export default function MapView() {
   const [selected, setSelected] = useState(null);
+  
+  // location states
+  const [userLocation, setUserLocation] = useState(null); // {lat, lng, accuracy}
+  const [geoError, setGeoError] = useState("");
+  const [showLocationPrompt, setShowLocationPrompt] = useState(true);
+
+  const [watchId, setWatchId] = useState(null);
+
+  useEffect(() => {
+  return () => {
+    if (watchId != null && "geolocation" in navigator) {
+      navigator.geolocation.clearWatch(watchId);
+    }
+  };
+}, [watchId]);
+
+    useEffect(() => {
+    if (userLocation) {
+        setShowLocationPrompt(false);
+    }
+    }, [userLocation]);
 
   // ✅ Drawer open/close
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -136,47 +180,148 @@ export default function MapView() {
   const activeCount =
     (selectedCity ? 1 : 0) + (selectedType ? 1 : 0) + selectedExperienceTags.length;
 
+  function startLocationTracking() {
+  setGeoError("");
+
+  if (!("geolocation" in navigator)) {
+    setGeoError("Geolocation isn’t supported in this browser.");
+    return;
+  }
+
+  // ✅ Clear any previous watcher before starting a new one
+  if (watchId != null) {
+    navigator.geolocation.clearWatch(watchId);
+    setWatchId(null);
+  }
+
+  const id = navigator.geolocation.watchPosition(
+    (pos) => {
+      setUserLocation({
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        accuracy: pos.coords.accuracy,
+      });
+    },
+    (err) => {
+      setGeoError(err.message || "Couldn’t get your location.");
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 15000,
+      timeout: 10000,
+    }
+  );
+
+  // ✅ Save it so we can clear on unmount
+  setWatchId(id);
+
+  return id;
+}
+
+
   return (
     <div className="map-page">
-      {/* ✅ Map behind everything */}
-      <MapContainer center={[42.68, -73.75]} zoom={12} className="map">
-        <TileLayer
-          attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+    {/* ✅ Map behind everything */}
+    <MapContainer center={[42.68, -73.75]} zoom={12} className="map">
+      <TileLayer
+        attribution="&copy; OpenStreetMap contributors"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-        {filteredLandmarks.map((lm) => (
-          <Marker
-            key={lm.id}
-            position={[lm.lat, lm.lng]}
-            eventHandlers={{
-              click: () => setSelected(lm),
-            }}
+      {/* Landmark markers */}
+      {filteredLandmarks.map((lm) => (
+        <Marker
+          key={lm.id}
+          position={[lm.lat, lm.lng]}
+          eventHandlers={{
+            click: () => setSelected(lm),
+          }}
+        />
+      ))}
+
+      {/* ✅ User location (blue dot + accuracy ring) */}
+      {userLocation && (
+        <>
+          <Circle
+            center={[userLocation.lat, userLocation.lng]}
+            radius={Math.min(userLocation.accuracy || 40, 150)}
+            pathOptions={{}}
+            className="user-accuracy"
           />
-        ))}
-      </MapContainer>
 
-      {/* ✅ Floating title (top-left) */}
-      <div className="floating-title">Capital Region Explorer</div>
-
-      {/* ✅ Floating Filters button (top-right) */}
-      <button
-        className="floating-filters-btn"
-        type="button"
-        onClick={() => setFiltersOpen(true)}
-      >
-        Filters {activeCount > 0 ? `(${activeCount})` : ""}
-      </button>
-
-      {/* ✅ Backdrop to close drawer */}
-      {filtersOpen && (
-        <button
-          className="filters-backdrop"
-          type="button"
-          aria-label="Close filters"
-          onClick={() => setFiltersOpen(false)}
-        />
+          <Marker
+            position={[userLocation.lat, userLocation.lng]}
+            icon={L.divIcon({
+              className: "user-location-icon",
+              html: `<div class="user-dot"></div>`,
+              iconSize: [18, 18],
+              iconAnchor: [9, 9],
+            })}
+          />
+        </>
       )}
+
+      {/* ✅ Floating locate button that uses map instance */}
+      <LocateButton
+        userLocation={userLocation}
+        onRequestLocation={() => setShowLocationPrompt(true)}
+      />
+    </MapContainer>
+
+    {/* ✅ Location prompt (overlay) */}
+    {showLocationPrompt && !userLocation && (
+      <div className="location-prompt">
+        <div className="location-prompt-title">See what’s around you?</div>
+        <div className="location-prompt-text">
+          Enable location to show nearby places and your position on the map.
+        </div>
+
+        {geoError && <div className="location-error">{geoError}</div>}
+
+        <div className="location-prompt-actions">
+          <button
+            className="location-allow"
+            type="button"
+            onClick={() => {
+              startLocationTracking();
+              setShowLocationPrompt(false);
+            }}
+          >
+            Use my location
+          </button>
+
+          <button
+            className="location-dismiss"
+            type="button"
+            onClick={() => setShowLocationPrompt(false)}
+          >
+            Not now
+          </button>
+        </div>
+      </div>
+    )}
+
+    {/* ✅ Floating title (top-left) */}
+    <div className="floating-title">Capital Region Explorer</div>
+
+    {/* ✅ Floating Filters button (top-right) */}
+    <button
+      className="floating-filters-btn"
+      type="button"
+      onClick={() => setFiltersOpen(true)}
+    >
+      Filters {activeCount > 0 ? `(${activeCount})` : ""}
+    </button>
+
+    {/* ✅ Backdrop to close drawer */}
+    {filtersOpen && (
+      <button
+        className="filters-backdrop"
+        type="button"
+        aria-label="Close filters"
+        onClick={() => setFiltersOpen(false)}
+      />
+    )}
 
       {/* ✅ Drawer */}
       <aside className={`filters-drawer ${filtersOpen ? "open" : ""}`}>

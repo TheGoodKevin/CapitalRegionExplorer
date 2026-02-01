@@ -1,19 +1,130 @@
-.map-wrapper {
+/* =========================
+   Base layout
+   ========================= */
+
+.map-page {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Map fills the entire screen behind overlays */
+.map {
   height: 100%;
+  width: 100%;
+}
+
+/* Optional: ensure Leaflet controls don’t hide behind title/drawer */
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 900;
+}
+
+/* =========================
+   Floating UI
+   ========================= */
+
+/* Floating title (top-left pill) */
+.floating-title {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 22px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Floating filters button (top-right) */
+.floating-filters-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================
+   Drawer + backdrop
+   ========================= */
+
+.filters-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.25);
+  border: 0;
+}
+
+/* Slide-in drawer */
+.filters-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 92vw);
+  z-index: 1002;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  box-shadow: -20px 0 40px rgba(0, 0, 0, 0.18);
+  transform: translateX(105%);
+  transition: transform 180ms ease-out;
   display: flex;
   flex-direction: column;
 }
 
-/* Filter bar above the map */
-.filter-bar {
-  background: white;
-  border-bottom: 1px solid #eee;
-  padding: 10px 12px;
+.filters-drawer.open {
+  transform: translateX(0);
 }
 
-.filter-title {
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.drawer-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.drawer-close {
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.drawer-content {
+  padding: 14px;
+  overflow: auto;
+}
+
+/* =========================
+   Filter sections + chips
+   ========================= */
+
+.filter-section {
+  margin-top: 10px;
+}
+
+.filter-section-title {
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  opacity: 0.9;
 }
 
 .chip-row {
@@ -39,24 +150,21 @@
 }
 
 .clear-btn {
-  margin-top: 8px;
+  margin-top: 12px;
+  width: 100%;
   background: #111;
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   cursor: pointer;
   font-size: 14px;
 }
 
-/* Map fills remaining space */
-.map {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-}
+/* =========================
+   Bottom sheet
+   ========================= */
 
-/* Bottom sheet */
 .bottom-sheet {
   position: fixed;
   bottom: 0;
@@ -104,4 +212,107 @@
   border: 1px solid #ddd;
   padding: 4px 8px;
   border-radius: 999px;
+}
+
+.map-page .leaflet-control-zoom {
+  margin-top: 80px !important;
+}
+
+@media (max-width: 600px) {
+  .map-page .leaflet-control-zoom {
+    margin-top: 70px !important;
+  }
+}
+
+/* Floating locate button (bottom-right) */
+.floating-locate-btn {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,0.1);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* Blue dot marker (divIcon) */
+.user-location-icon {
+  background: transparent;
+  border: none;
+}
+
+.user-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #1a73e8;               /* blue dot */
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.25);
+  border: 2px solid white;
+}
+
+/* Accuracy ring styling */
+.user-accuracy {
+  opacity: 0.25;
+}
+
+/* Location prompt card */
+.location-prompt {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 1100;
+  width: min(360px, calc(100vw - 36px));
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  padding: 12px 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.location-prompt-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.location-prompt-text {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.location-error {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.location-prompt-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.location-allow {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.location-dismiss {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 14px;
 }

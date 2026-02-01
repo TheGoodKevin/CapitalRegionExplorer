@@ -1,24 +1,15 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 .app {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.app-header {
-  padding: 10px 14px;
-  background: white;
-  border-bottom: 1px solid #eee;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
 }
 
 .app-main {
-  flex: 1;
-  min-height: 0; /* important so the map can shrink/grow */
+  height: 100%;
 }

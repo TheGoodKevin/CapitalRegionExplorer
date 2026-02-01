@@ -880,3 +880,310 @@
   color: #666;
   font-size: 14px;
 }
+
+/* =========================
+   ✅ CHARITY'S FEATURES
+   Red Drop Pin Cursor
+   ========================= */
+
+.map-with-pin-cursor {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="36" viewBox="0 0 24 36"><path fill="%23ef4444" d="M12 0C7.03 0 3 4.03 3 9c0 5.25 9 18 9 18s9-12.75 9-18c0-4.97-4.03-9-9-9z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>') 12 36, pointer !important;
+}
+
+.dropped-pin-icon {
+  background: transparent;
+  border: none;
+}
+
+.dropped-pin {
+  font-size: 30px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  animation: pinDrop 0.3s ease-out;
+}
+
+@keyframes pinDrop {
+  0% {
+    transform: translateY(-20px) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   ✅ CHARITY'S FEATURES
+   Events Banner - Hover to Reveal
+   ========================= */
+
+.events-banner {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  z-index: 1100;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 12px 12px;
+  transition: transform 0.3s ease;
+  min-width: 500px;
+  max-width: 700px;
+}
+
+.events-banner-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.events-tab {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 8px 20px;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.events-banner:hover .events-tab {
+  bottom: -36px;
+}
+
+.events-tab-text {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.events-arrow {
+  font-size: 10px;
+  animation: bounceArrow 1.5s ease-in-out infinite;
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+.events-content {
+  padding: 16px 20px;
+}
+
+.events-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.events-nav {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.events-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.events-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.events-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.events-text strong {
+  font-weight: 600;
+}
+
+.events-divider {
+  opacity: 0.7;
+}
+
+.events-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.events-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.events-pin-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.events-pin-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.events-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.events-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.events-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.3);
+}
+
+.events-dot-active {
+  background: white;
+  width: 18px;
+  border-radius: 3px;
+}
+
+/* =========================
+   ✅ CHARITY'S FEATURES
+   Address Row with Map Icons
+   ========================= */
+
+.sheet-address-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(102, 126, 234, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.sheet-address-text {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.sheet-address-text b {
+  margin-right: 6px;
+}
+
+.map-apps-icons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.map-app-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 20px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.map-app-icon-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Mobile responsiveness for new features */
+@media (max-width: 600px) {
+  .events-banner {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+  
+  .events-tab-text {
+    font-size: 12px;
+  }
+  
+  .events-banner-inner {
+    gap: 8px;
+  }
+  
+  .events-text {
+    font-size: 13px;
+  }
+  
+  .events-link {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .sheet-address-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .map-apps-icons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

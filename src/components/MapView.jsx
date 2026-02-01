@@ -209,8 +209,32 @@ function PhotoCarousel({ photos }) {
   );
 }
 
+// ✅ Component to handle map clicks for pin placement
+function MapClickHandler({ onMapClick, pinMode }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!pinMode) return;
+
+    const handleClick = (e) => {
+      onMapClick(e.latlng);
+    };
+
+    map.on('click', handleClick);
+    return () => {
+      map.off('click', handleClick);
+    };
+  }, [map, onMapClick, pinMode]);
+
+  return null;
+}
+
 export default function MapView() {
   const [selected, setSelected] = useState(null);
+  
+  // ✅ Pin mode states
+  const [pinMode, setPinMode] = useState(true);
+  const [droppedPin, setDroppedPin] = useState(null);
   
   // location states
   const [userLocation, setUserLocation] = useState(null); // {lat, lng, accuracy}
@@ -403,12 +427,38 @@ export default function MapView() {
 
   return (
     <div className="map-page">
-      {/* ✅ Map behind everything */}
-      <MapContainer center={[42.68, -73.75]} zoom={12} className="map">
+      {/* ✅ Map behind everything with pin cursor */}
+      <MapContainer 
+        center={[42.68, -73.75]} 
+        zoom={12} 
+        className={`map ${pinMode ? 'map-with-pin-cursor' : ''}`}
+      >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {/* ✅ Handle map clicks for pin placement */}
+        <MapClickHandler
+          pinMode={pinMode}
+          onMapClick={(latlng) => {
+            setDroppedPin(latlng);
+            setFiltersOpen(true); // Open drawer when pin is dropped
+          }}
+        />
+
+        {/* ✅ Dropped pin marker (red) */}
+        {droppedPin && (
+          <Marker
+            position={[droppedPin.lat, droppedPin.lng]}
+            icon={L.divIcon({
+              className: 'dropped-pin-icon',
+              html: `<div class="dropped-pin">📍</div>`,
+              iconSize: [30, 30],
+              iconAnchor: [15, 30],
+            })}
+          />
+        )}
 
         {/* Landmark markers */}
         {filteredLandmarks.map((lm) => (

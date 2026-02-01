@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Circle, useMap } from "react-leaflet";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import "./MapView.css";
 
@@ -95,8 +95,15 @@ function matchesExperienceTags(landmark, selectedExperienceTags) {
   return selectedExperienceTags.every((tag) => landmark.experiencetag.includes(tag));
 }
 
-function LocateButton({ userLocation, onRequestLocation }) {
+function LocateButton({ userLocation, onRequestLocation, mapRef }) {
   const map = useMap();
+
+  // Store map reference
+  useEffect(() => {
+    if (mapRef) {
+      mapRef.current = map;
+    }
+  }, [map, mapRef]);
 
   return (
     <button
@@ -410,8 +417,20 @@ export default function MapView() {
   const [userLocation, setUserLocation] = useState(null); // {lat, lng, accuracy}
   const [geoError, setGeoError] = useState("");
   const [showLocationPrompt, setShowLocationPrompt] = useState(true);
+  const [hasAutocentered, setHasAutocentered] = useState(false);
 
   const [watchId, setWatchId] = useState(null);
+  const mapRef = useRef(null);
+
+  // ✅ Auto-center map when user location is first obtained
+  useEffect(() => {
+    if (userLocation && !hasAutocentered && mapRef.current) {
+      mapRef.current.setView([userLocation.lat, userLocation.lng], 14, {
+        animate: true,
+      });
+      setHasAutocentered(true);
+    }
+  }, [userLocation, hasAutocentered]);
 
   // ✅ Saved landmarks (persisted to localStorage)
   const [savedLandmarks, setSavedLandmarks] = useState(() => {
@@ -423,8 +442,17 @@ export default function MapView() {
     }
   });
 
-  // ✅ Active view: 'filters' or 'nearby' or 'saved'
+  // ✅ UI states
   const [activeView, setActiveView] = useState("filters");
+  const [showHelp, setShowHelp] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem("darkMode");
+      return saved === "true";
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     return () => {
@@ -444,6 +472,11 @@ export default function MapView() {
   useEffect(() => {
     localStorage.setItem("savedLandmarks", JSON.stringify(savedLandmarks));
   }, [savedLandmarks]);
+
+  // ✅ Save dark mode preference
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode.toString());
+  }, [darkMode]);
 
   // ✅ Drawer open/close
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -671,6 +704,7 @@ export default function MapView() {
         <LocateButton
           userLocation={userLocation}
           onRequestLocation={() => setShowLocationPrompt(true)}
+          mapRef={mapRef}
         />
       </MapContainer>
 
@@ -707,19 +741,29 @@ export default function MapView() {
         </div>
       )}
 
-      {/* ✅ Floating logo (top-left) */}
+      {/* ✅ Floating title with logo (top-left) */}
       <div className="floating-title">
         <img src="/src/assets/logo.jpg" alt="Capital Region Explorer" className="app-logo" />
       </div>
 
-      {/* ✅ Floating menu button (top-right) */}
-      <button
-        className="floating-filters-btn"
-        type="button"
-        onClick={() => setFiltersOpen(true)}
-      >
-        Menu
-      </button>
+      {/* ✅ Floating buttons (top-right) */}
+      <div className="floating-buttons">
+        <button
+          className="floating-help-btn"
+          type="button"
+          onClick={() => setShowHelp(true)}
+          title="How to use"
+        >
+          ?
+        </button>
+        <button
+          className="floating-filters-btn"
+          type="button"
+          onClick={() => setFiltersOpen(true)}
+        >
+          Menu
+        </button>
+      </div>
 
       {/* ✅ Backdrop to close drawer */}
       {filtersOpen && (
@@ -732,16 +776,26 @@ export default function MapView() {
       )}
 
       {/* ✅ Drawer with tabs */}
-      <aside className={`filters-drawer ${filtersOpen ? "open" : ""}`}>
+      <aside className={`filters-drawer ${filtersOpen ? "open" : ""} ${darkMode ? "dark" : ""}`}>
         <div className="drawer-header">
           <div className="drawer-title">Capital Region Explorer</div>
-          <button
-            className="drawer-close"
-            type="button"
-            onClick={() => setFiltersOpen(false)}
-          >
-            ✕
-          </button>
+          <div className="drawer-header-actions">
+            <button
+              className="dark-mode-toggle"
+              onClick={() => setDarkMode(!darkMode)}
+              type="button"
+              title={darkMode ? "Light mode" : "Dark mode"}
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
+            <button
+              className="drawer-close"
+              type="button"
+              onClick={() => setFiltersOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         {/* ✅ Tab navigation */}
@@ -1035,6 +1089,58 @@ export default function MapView() {
             ))}
           </div>
         </div>
+      )}
+
+      {/* ✅ Help Modal */}
+      {showHelp && (
+        <>
+          <button
+            className="filters-backdrop"
+            type="button"
+            aria-label="Close help"
+            onClick={() => setShowHelp(false)}
+          />
+          <div className="help-modal">
+            <button
+              className="close-btn"
+              onClick={() => setShowHelp(false)}
+              type="button"
+            >
+              ✕
+            </button>
+            <h2 className="help-title">How to Use Capital Region Explorer</h2>
+            
+            <div className="help-section">
+              <h3 className="help-subtitle">🗺️ Exploring the Map</h3>
+              <p>Click any blue marker on the map to see details about that landmark, including photos, description, and address.</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">📍 Your Location</h3>
+              <p>Allow location access to see a blue dot showing where you are. The map will automatically center on your location. Click the ◎ button in the bottom-right to recenter anytime.</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">🔍 Filters Tab</h3>
+              <p>Filter landmarks by city, type (museum, park, etc.), or experience tags (family-friendly, outdoors, free, etc.). Filters combine to narrow your search.</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">📌 Nearby Tab</h3>
+              <p>See all landmarks within 3 miles of your current location, sorted by distance. Perfect for finding something to do right now!</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">⭐ Saved Tab</h3>
+              <p>Star any landmark to save it for later. Your saved landmarks are stored permanently and perfect for planning future trips.</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">🌙 Dark Mode</h3>
+              <p>Toggle dark mode using the moon/sun icon in the menu drawer for comfortable viewing at any time of day.</p>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

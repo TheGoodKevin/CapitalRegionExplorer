@@ -407,7 +407,7 @@ export default function MapView() {
   const [selected, setSelected] = useState(null);
   
   // ✅ Pin mode states
-  const [pinMode, setPinMode] = useState(true);
+  const [pinMode, setPinMode] = useState(false);
   const [droppedPin, setDroppedPin] = useState(null);
   
   // ✅ Map apps menu state
@@ -748,6 +748,19 @@ export default function MapView() {
 
       {/* ✅ Floating buttons (top-right) */}
       <div className="floating-buttons">
+        <button
+          className={`floating-pin-btn ${pinMode ? 'pin-mode-active' : ''}`}
+          type="button"
+          onClick={() => {
+            setPinMode(!pinMode);
+            if (pinMode) {
+              setDroppedPin(null);
+            }
+          }}
+          title={pinMode ? "Exit pin mode" : "Drop a pin"}
+        >
+          📍
+        </button>
         <button
           className="floating-help-btn"
           type="button"
@@ -1133,6 +1146,11 @@ export default function MapView() {
             <div className="help-section">
               <h3 className="help-subtitle">⭐ Saved Tab</h3>
               <p>Star any landmark to save it for later. Your saved landmarks are stored permanently and perfect for planning future trips.</p>
+            </div>
+
+            <div className="help-section">
+              <h3 className="help-subtitle">📍 Drop a Pin</h3>
+              <p>Click the pin button (📍) in the top-right to enter pin mode. Then click anywhere on the map to drop a pin and see details about that location. Click the pin button again to exit pin mode and return to normal map navigation.</p>
             </div>
 
             <div className="help-section">

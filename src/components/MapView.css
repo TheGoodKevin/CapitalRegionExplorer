@@ -59,6 +59,7 @@
 }
 
 .floating-help-btn,
+.floating-pin-btn,
 .floating-filters-btn {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -73,6 +74,23 @@
   color: #1a73e8;
 }
 
+.floating-pin-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-pin-btn.pin-mode-active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
 .floating-help-btn {
   width: 36px;
   height: 36px;
@@ -85,10 +103,17 @@
 }
 
 .floating-help-btn:hover,
+.floating-pin-btn:hover,
 .floating-filters-btn:hover {
   background: white;
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+.floating-pin-btn.pin-mode-active:hover {
+  background: linear-gradient(135deg, #7c8ef0 0%, #8b5bb8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.5);
 }
 
 /* =========================

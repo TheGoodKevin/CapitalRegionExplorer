@@ -39,6 +39,7 @@ function normalizeCityFile(cityFile) {
       website: lm.website,
       typetag: typeTag,
       experiencetag: experienceTags,
+      images: Array.isArray(lm.images) ? lm.images : [],
     };
   });
 }
@@ -409,11 +410,24 @@ export default function MapView() {
             onClick={() => setSelected(null)}
             type="button"
           >
-            ✕
           </button>
 
           <h2 className="sheet-title">{selected.name}</h2>
+          
           <p className="sheet-desc">{selected.description}</p>
+            {selected.images?.length > 0 && (
+          <div className="sheet-gallery">
+            {selected.images.slice(0, 6).map((src, idx) => (
+              <img
+                key={`${selected.id}-img-${idx}`}
+                className="sheet-image"
+                src={src}
+                alt={`${selected.name} photo ${idx + 1}`}
+                loading="lazy"
+              />
+            ))}
+          </div>
+        )}
 
           {selected.address && (
             <p className="sheet-desc">

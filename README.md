@@ -1,168 +1,192 @@
-# CapitalRegionExplorer
-
-Capital Region Explorer is a mobile-first, map-based web application designed to improve how the Troy–Albany Capital Region is discovered, explored, and promoted. It addresses a real local challenge: the region’s most meaningful places, events, and experiences are often known only to locals and poorly surfaced to visitors, students, and new residents.
-
-🚩 The Problem
-
-Tourism and community engagement in the Capital Region face several challenges:
-
-Information about local landmarks, parks, historic sites, and events is fragmented across websites, outdated pages, or word-of-mouth
-
-Existing platforms prioritize reviews and restaurants, not community spaces or public assets
-
-Local nonprofits, cultural organizations, and municipalities lack an accessible, modern discovery platform
-
-Visitors and even long-time residents struggle to answer:
-
-“What can I do around here that’s free, local, and meaningful?”
-
-💡 Our Solution
-
-Capital Region Explorer provides a curated, interactive discovery experience built specifically for the Capital Region.
-
-Instead of reviews, ads, or rankings, the platform focuses on:
-
-Places to explore
-
-Experiences to plan
-
-Community-driven discovery
-
-Users can:
-
-Explore the region through an interactive map
-
-Filter locations by what they are (Historic, Park, Arts, Nature, etc.)
-
-Filter by how they fit into a plan (Free, Day Trip, Adventure, Family-friendly, etc.)
-
-View rich location details through a mobile-friendly bottom sheet UI
-
-Use the app like a native mobile experience via Progressive Web App (PWA) support
-
-This allows nonprofits, municipalities, and community organizations to be discoverable in context, not buried in search results.
-
-🧠 Key Design Decisions
-Dual-Tag System (Core Innovation)
-
-Each location supports two independent tag dimensions:
-
-Type Tags – what the place is
-
-Historic, Park, Museum, Arts, Nature, Venue
-
-Experience Tags – how the place fits into a day
-
-Free, Day Trip, Adventure, Family, Outdoors, Rainy Day
-
-This allows users to explore naturally:
-
-“Show me historic places”
-
-“Plan a free day trip”
-
-“What can I do outdoors nearby?”
-
-🛠️ Tech Stack
-Frontend
-
-React – component-based UI and state management
-
-Vite – fast development server and modern build tooling
-
-React-Leaflet + Leaflet – interactive map rendering
-
-CSS (custom) – responsive, mobile-first styling
-
-Data
-
-JSON-based datasets for Troy, Albany, and Schenectady
-
-Normalized at runtime into a unified landmark model
-
-Designed to scale as more cities and organizations are added
-
-Platform
-
-Progressive Web App (PWA) architecture
-
-Installable on mobile devices
-
-Offline-friendly structure
-
-No app store required
-
-Deployment
-
-Static, client-side architecture
-
-Easily deployable via platforms like Vercel or Netlify
-
-No backend required for MVP
-
-🏗️ Implementation Overview
-
-Landmarks are stored in city-specific JSON files
-
-Each landmark includes:
-
-Location data (lat/lng)
-
-Descriptions and photos
-
-Type and Experience tags
-
-Data is normalized into a shared structure on load
-
-Filters dynamically control marker visibility on the map
-
-Selecting a marker opens a bottom sheet with rich content
-
-UI is optimized for in-the-moment mobile use
-
-🌱 Community Impact
-
-Capital Region Explorer directly supports:
-
-Local governments – by promoting public spaces and civic landmarks
-
-Nonprofits & cultural organizations – by increasing visibility without requiring marketing budgets
-
-Small businesses – indirectly, by increasing foot traffic and exploration
-
-Residents & visitors – by making local experiences easier to find and plan
-
-The platform can be extended to:
-
-Feature seasonal events
-
-Highlight nonprofit-run locations
-
-Support curated routes and itineraries
-
-Enable community or organizational submissions
-
-🚀 Why This Matters
-
-The Capital Region doesn’t lack things to do — it lacks discoverability.
-
-Capital Region Explorer reframes the region as:
-
-explorable
-
-approachable
-
-community-driven
-
-accessible to everyone
-
-This project demonstrates how technology can amplify local knowledge, strengthen community engagement, and better connect people to the places that already exist around them.
-
-📍 Built For the Capital Region
-
-Starting with:
-
-Troy
+# Capital Region Explorer 🗺️
+
+An interactive progressive web app for discovering landmarks, events, and attractions across New York's Capital Region (Albany, Troy, and Schenectady).
+
+![Capital Region Explorer](https://img.shields.io/badge/Built%20with-React-61DAFB?style=for-the-badge&logo=react)
+![Leaflet](https://img.shields.io/badge/Maps-Leaflet-199900?style=for-the-badge&logo=leaflet)
+
+## 🎯 Features
+
+### Core Functionality
+- **Interactive Map** - Explore 30+ landmarks across Albany, Troy, and Schenectady with OpenStreetMap integration
+- **Photo Galleries** - View multiple photos for each landmark with an intuitive carousel
+- **Location Tracking** - See your current position on the map with automatic centering
+- **Smart Filters** - Filter landmarks by city, type, and experience tags
+- **Nearby Discovery** - Find landmarks within 3 miles of your location, sorted by distance
+- **Saved Landmarks** - Star your favorite places for future reference with persistent local storage
+- **Drop a Pin** - Click anywhere on the map to explore custom locations
+- **Events Banner** - Stay updated with upcoming local events
+- **Dark Mode** - Comfortable viewing at any time of day
+- **Navigation Links** - Direct integration with Google Maps, Apple Maps, and Waze
+
+### User Experience
+- Clean, modern purple gradient design
+- Smooth animations and transitions
+- Mobile-responsive interface
+- Comprehensive "How to Use" guide
+- Progressive Web App (PWA) capabilities
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd capital-region-explorer
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   - Navigate to `http://localhost:5173` (or the port shown in your terminal)
+   - Allow location permissions when prompted for the best experience
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The optimized production build will be in the `dist/` folder.
+
+## 📁 Project Structure
+
+```
+capital-region-explorer/
+├── public/
+│   └── photos/           # Landmark photos organized by city/landmark
+│       ├── Albany/
+│       ├── Troy/
+│       └── Schenectady/
+├── src/
+│   ├── assets/
+│   │   └── logo.jpg      # App logo
+│   ├── components/
+│   │   ├── MapView.jsx   # Main map component
+│   │   └── MapView.css   # Styles
+│   ├── data/
+│   │   ├── Albany.json   # Albany landmarks data
+│   │   ├── Troy.json     # Troy landmarks data
+│   │   └── Schenectady.json  # Schenectady landmarks data
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+├── package.json
+└── README.md
+```
+
+## 🎮 How to Use
+
+### Exploring the Map
+- Click any blue marker to see landmark details with photos and information
+- Drag the map to pan around the Capital Region
+- Use zoom controls (+/-) on the left side
+
+### Location Features
+1. **Enable Location** - Click "Use my location" when prompted to see your position
+2. **Recenter** - Click the ◎ button (bottom-right) to center the map on your location
+3. **Nearby Tab** - View landmarks within 3 miles, sorted by distance
+
+### Filtering & Saving
+1. **Filters Tab** - Narrow results by city, type (Museum, Park, etc.), or experience (Family, Outdoors, Free, etc.)
+2. **Star Button** - Click ⭐ to save landmarks for later
+3. **Saved Tab** - Access all your starred landmarks in one place
+
+### Pin Dropping
+1. Click the 📍 button in the top-right corner to enter pin mode
+2. Click anywhere on the map to drop a pin and explore that location
+3. Click 📍 again to exit pin mode
+
+### Dark Mode
+- Toggle dark mode using the 🌙/☀️ icon in the menu drawer
+
+## 🛠️ Technologies Used
+
+- **React** - Frontend framework
+- **Vite** - Build tool and development server
+- **Leaflet** - Interactive mapping library
+- **React-Leaflet** - React components for Leaflet
+- **OpenStreetMap** - Map tiles and data
+- **LocalStorage** - Persistent data storage
+
+## 📊 Data Structure
+
+Each landmark contains:
+- Name and description
+- GPS coordinates (latitude/longitude)
+- Address
+- City
+- Type tag (Museum, Park, Historic, etc.)
+- Experience tags (Family, Outdoors, Free, Educational, etc.)
+- Website URL
+- Up to 3 photos
+
+## 🎨 Customization
+
+### Adding New Landmarks
+Edit the JSON files in `src/data/` following this structure:
+
+```json
+{
+  "city": "CityName",
+  "landmarks": [
+    {
+      "id": 1,
+      "name": "Landmark Name",
+      "typetag": "Museum",
+      "experiencetag": ["Family", "Educational", "Indoors"],
+      "description": "Description here",
+      "address": "123 Main St, City, NY",
+      "latitude": 42.1234,
+      "longitude": -73.5678,
+      "website": "https://example.com"
+    }
+  ]
+}
+```
+
+### Adding Photos
+Place photos in `public/photos/{City}/{Landmark Name}/`:
+- `download.jpg` or `download.png`
+- `images.jpg` or `images.png`
+- `imagess.jpg` or `imagess.png`
+
+## 🏆 Hackathon Highlights
+
+- **User-Centric Design** - Built with real exploration needs in mind
+- **Performance** - Fast loading with optimized photo carousel
+- **Accessibility** - ARIA labels, keyboard navigation, and semantic HTML
+- **Scalability** - Easy to add new landmarks and features
+- **Innovation** - Combines location tracking, filtering, and pin dropping in one seamless experience
+
+## 🤝 Contributing
+
+This project was built for a hackathon. Contributions, suggestions, and feedback are welcome!
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 👥 Team
+
+Created with ❤️ for the Capital Region by our hackathon team.
+
+---
+
+**Happy Exploring! 🗺️✨**
 
 Albany
 
